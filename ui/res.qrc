@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="res">
+    <file>images/logo.ico</file>
+    <file>images/select_window_closed.svg</file>
+    <file>images/disabled_by_default.svg</file>
+    <file>images/save.svg</file>
+    <file>images/select_window_open.svg</file>
+  </qresource>
+</RCC>
