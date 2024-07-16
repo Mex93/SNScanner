@@ -9,11 +9,12 @@ import PySide6.QtCore as qc
 
 from ui.untitled import Ui_MainWindow
 from ui.config_project_menu import Ui_MainWindow as UI_ConfigWindow
-from interface.CToolBar import CToolBar
 
 from interface.enums import CONFIG_MENU_FIELD_TYPE
 from common import send_message_box
-from enums import SMBOX_ICON_TYPE
+from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, PROJECT_TYPE, PROGRAM_STATUS
+from database.CDB import CDatabase
+from project.CProject import CProject
 
 # pyside6-uic .\ui\untitled.ui -o .\ui\untitled.py
 # pyside6-rcc .\ui\res.qrc -o .\ui\res_rc.py
@@ -34,6 +35,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(f'SN Scan Квант 2024 v0.1')
 
         self.config_window = CConfigWindow()
+        self.db_unit = CDatabase()
+        self.cproject = CProject()
 
         # connects
         # self.ui.pb_code.clicked.connect(self.on_user_clicked_convert_button)
@@ -46,7 +49,10 @@ class MainWindow(QMainWindow):
         self.set_config_menu(True)
 
     def on_user_focus(self):
-        pass
+        handler: CDatabase = self.db_unit.connect_to_db("my_test")
+        if handler:
+            print(handler)
+            self.db_unit.disconnect()
 
     def set_config_menu(self, status: bool):
         if status:
@@ -54,6 +60,10 @@ class MainWindow(QMainWindow):
             self.config_window.setFocus()
         else:
             self.config_window.hide()
+
+
+    def set_program_to_default_state(self):
+        self.
 
 
 class CConfigWindow(QMainWindow):
@@ -92,7 +102,18 @@ class CConfigWindow(QMainWindow):
         self.ui.lineEdit_lot.textEdited.connect(
             lambda: self.on_user_input_text(CONFIG_MENU_FIELD_TYPE.LOT_COUNT, self.ui.lineEdit_lot))
 
+        # radioButton_sns2_2 = sn sn sn
+        self.ui.radioButton_sns2_2.clicked.connect(
+            lambda: self.on_user_change_radio_btn(SN_COUNT_TYPE.SN_TRIPLE))
+        self.ui.radioButton_sns2.clicked.connect(
+            lambda: self.on_user_change_radio_btn(SN_COUNT_TYPE.SN_DOUBLE))
+
         self.set_enable_all_menu(True)
+
+    def on_user_change_radio_btn(self, sn_count_type: SN_COUNT_TYPE):
+        print(sn_count_type)
+
+
 
     def on_user_input_text(self, sn_type: CONFIG_MENU_FIELD_TYPE, text_field: UI_ConfigWindow):
         input_text: str = text_field.text()
