@@ -6,7 +6,6 @@ from PySide6.QtGui import QFontDatabase
 
 import PySide6.QtCore as qc
 
-
 from ui.untitled import Ui_MainWindow
 from ui.config_project_menu import Ui_MainWindow as UI_ConfigWindow
 
@@ -65,19 +64,21 @@ class MainWindow(QMainWindow):
         else:
             self.config_window.hide()
 
-
     def set_program_to_default_state(self):
 
         for index in range(300):
-            self.carea_unit.append_new_field()
+            self.carea_unit.append_new_field_on_index()
 
         self.carea_unit.set_field_data(2, FIELD_TYPE_ID.SN_2, "LOL")
         self.carea_unit.set_field_data(5, FIELD_TYPE_ID.SN_3, "rwgjhwroijgrw")
         print(self.carea_unit.get_field_data(5, FIELD_TYPE_ID.SN_3))
 
-        print(self.carea_unit.delete_all_field(5))
+        print(self.carea_unit.delete_all_fields_in_line(5))
 
+        print(self.carea_unit.insert_new_field_on_empty_place())
+        self.carea_unit.set_field_data(5, FIELD_TYPE_ID.SCAN_DATA, "egwe")
 
+        print(f" удалено " + str(self.carea_unit.delete_all_fields_window()))
 
 
 class CConfigWindow(QMainWindow):
@@ -126,8 +127,6 @@ class CConfigWindow(QMainWindow):
 
     def on_user_change_radio_btn(self, sn_count_type: SN_COUNT_TYPE):
         print(sn_count_type)
-
-
 
     def on_user_input_text(self, sn_type: CONFIG_MENU_FIELD_TYPE, text_field: UI_ConfigWindow):
         input_text: str = text_field.text()

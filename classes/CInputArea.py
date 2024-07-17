@@ -17,7 +17,9 @@ from enums import FIELD_TYPE_ID, FIELD_TYPE
 
 
 class CInputUnit:
-    field_index = 0
+    """Класс хранящий виджет и его параметры и манипуляции
+    table_index у виджета должен быть всегда +1 от индекса списка юнитов виджетов
+    """
     __main_window = None
 
     def __init__(self, field_id: FIELD_TYPE_ID, table_index: int):
@@ -82,8 +84,8 @@ class CInputUnit:
 
                 unit = QLabel(main_window.scrollAreaWidgetContents)
                 unit.setFont(font)
-                unit.setText(QCoreApplication.translate("MainWindow", f"{str(table_index)}", None))
-                main_window.gridLayout.addWidget(unit)
+                unit.setText(QCoreApplication.translate("MainWindow", f"{str(table_index+1)}", None))
+                main_window.gridLayout.addWidget(unit, table_index+1, self.__field_in_line_index, 1, 1)
 
                 self.__widjet_unit = unit
                 self.__field_type = FIELD_TYPE.TEXT_LABEL
@@ -104,7 +106,7 @@ class CInputUnit:
                 unit.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 unit.setClearButtonEnabled(True)
 
-                main_window.gridLayout.addWidget(unit, table_index, self.__field_in_line_index, 1, 1)
+                main_window.gridLayout.addWidget(unit, table_index+1, self.__field_in_line_index, 1, 1)
                 # self.gridLayout.addWidget(self.lineEdit_sn2_0, 1, 2, 1, 1)
                 # self.gridLayout.addWidget(self.lineEdit_sn3_0, 1, 3, 1, 1)
 
@@ -120,7 +122,7 @@ class CInputUnit:
                 #
                 # self.__widjet_unit = unit
                 # self.__field_type = FIELD_TYPE.SPACER
-                return True
+                return False
             elif self.__field_type_id == FIELD_TYPE_ID.SCAN_DATA:
 
                 unit = QLineEdit(main_window.scrollAreaWidgetContents)
@@ -128,7 +130,7 @@ class CInputUnit:
                 unit.setFrame(False)
                 unit.setReadOnly(True)
 
-                main_window.gridLayout.addWidget(unit, table_index, self.__field_in_line_index, 1, 1)
+                main_window.gridLayout.addWidget(unit, table_index+1, self.__field_in_line_index, 1, 1)
                 self.__widjet_unit = unit
                 self.__field_type = FIELD_TYPE.INPUT_AREA
                 return True
@@ -142,7 +144,7 @@ class CInputUnit:
                 unit.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
                 unit.setClearButtonEnabled(False)
 
-                main_window.gridLayout.addWidget(unit, table_index, self.__field_in_line_index, 1, 1)
+                main_window.gridLayout.addWidget(unit, table_index+1, self.__field_in_line_index, 1, 1)
                 self.__widjet_unit = unit
                 self.__field_type = FIELD_TYPE.INPUT_AREA
 
@@ -165,8 +167,12 @@ class CInputUnit:
 
 
 class CInputArea:
+    """
+    Класс для обработки строк
+
+    Spacer не задействован так как оказывается достаточно одного в колонке"""
     __list_of_input = list()
-    __table_index = 0
+    __table_index = -1
 
     @classmethod
     def get_field_place_in_line(cls, field_id: FIELD_TYPE_ID):
@@ -222,9 +228,16 @@ class CInputArea:
         return False
 
     @classmethod
-    def append_new_field(cls):
+    def append_new_field_on_index(cls, insert_table_index=None) -> bool:
 
-        table_index = cls.set_field_index()
+        if insert_table_index is None:
+            table_index = cls.set_field_index()
+        else:
+            if not cls.is_field_empty(insert_table_index):
+                return False
+
+            table_index = insert_table_index
+
         unit_list = list()
 
         fields = [
@@ -243,20 +256,61 @@ class CInputArea:
                 raise RuntimeError("Error in render fields")
             unit_list.append(field_unit)
 
-        cls.__list_of_input.append(unit_list)
+        if insert_table_index is None:
+            cls.__list_of_input.append(unit_list)
+            return True
+        else:
+            cls.__list_of_input = unit_list
+            return True
 
     @classmethod
-    def delete_all_field(cls, table_index: int) -> bool:
+    def get_empty_field_place(cls):
+        for index in range(len(cls.__list_of_input)):
+            if cls.__list_of_input[index] is None:
+                return index
+        return -1
+
+    @classmethod
+    def is_field_empty(cls, table_index: int):
+        if 0 <= table_index < len(cls.__list_of_input):
+            if isinstance(cls.__list_of_input[table_index], list):
+                return False
+            else:
+                return True
+        return False
+
+    @classmethod
+    def insert_new_field_on_empty_place(cls) -> bool:
+        empty_index = cls.get_empty_field_place()
+        if empty_index == -1:
+            return cls.append_new_field_on_index()
+        else:
+            return cls.append_new_field_on_index(empty_index)
+
+    @classmethod
+    def delete_all_fields_in_line(cls, table_index: int) -> bool:
+
         if cls.is_valid_table_index(table_index):
             field_list_of_units = cls.__list_of_input[table_index]
-
             result = 0
             for unit in field_list_of_units:
                 if isinstance(unit, CInputUnit):
                     unit.delete_unit()
                     result += 1
             if result > 0:
+                print(table_index)
                 cls.__list_of_input[table_index] = None
                 return True
 
         return False
+
+    @classmethod
+    def delete_all_fields_window(cls) -> int:
+
+        count = 0
+        for index in range(len(cls.__list_of_input)):
+            if cls.delete_all_fields_in_line(index):
+                count += 1
+        if count > 0:
+            cls.__list_of_input = []
+        return count
