@@ -10,11 +10,12 @@ import PySide6.QtCore as qc
 from ui.untitled import Ui_MainWindow
 from ui.config_project_menu import Ui_MainWindow as UI_ConfigWindow
 
-from interface.enums import CONFIG_MENU_FIELD_TYPE
+from enums import CONFIG_MENU_FIELD_TYPE
 from common import send_message_box
-from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, PROJECT_TYPE, PROGRAM_STATUS
-from database.CDB import CDatabase
-from project.CProject import CProject
+from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID
+from classes.CDB import CDatabase
+from classes.CProject import CProject
+from classes.CInputArea import CInputArea, CInputUnit
 
 # pyside6-uic .\ui\untitled.ui -o .\ui\untitled.py
 # pyside6-rcc .\ui\res.qrc -o .\ui\res_rc.py
@@ -37,6 +38,8 @@ class MainWindow(QMainWindow):
         self.config_window = CConfigWindow()
         self.db_unit = CDatabase()
         self.cproject = CProject()
+        self.carea_unit = CInputArea()
+        CInputUnit.set_main_window(main_window=self.ui)
 
         # connects
         # self.ui.pb_code.clicked.connect(self.on_user_clicked_convert_button)
@@ -44,6 +47,7 @@ class MainWindow(QMainWindow):
 
         self.ui.action_new_project.triggered.connect(self.on_user_clicked_new_project)
         self.ui.action_open.triggered.connect(self.on_user_focus)
+        self.set_program_to_default_state()
 
     def on_user_clicked_new_project(self):
         self.set_config_menu(True)
@@ -63,7 +67,17 @@ class MainWindow(QMainWindow):
 
 
     def set_program_to_default_state(self):
-        self.
+
+        for index in range(300):
+            self.carea_unit.append_new_field()
+
+        self.carea_unit.set_field_data(2, FIELD_TYPE_ID.SN_2, "LOL")
+        self.carea_unit.set_field_data(5, FIELD_TYPE_ID.SN_3, "rwgjhwroijgrw")
+        print(self.carea_unit.get_field_data(5, FIELD_TYPE_ID.SN_3))
+
+        print(self.carea_unit.delete_all_field(5))
+
+
 
 
 class CConfigWindow(QMainWindow):

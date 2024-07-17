@@ -36,8 +36,23 @@ class FIELD_INDEX_ARR_TYPE(IntEnum):
     SQL_INDEX = 5
 
 class FIELD_TYPE_ID(IntEnum):
+    NUMBER_LABEL = 0,
     SN_1 = 1,
     SN_2 = 2,
     SN_3 = 3,
-    SCAN_DATA = 4,
-    RESULT_STATUS = 5,
+    HORIZONTAL_SPACER = 4,
+    SCAN_DATA = 5,
+    RESULT_STATUS = 6,
+
+class CONFIG_MENU_FIELD_TYPE(IntEnum):
+    SN_ONE = 1,
+    SN_TWO = 2,
+    SN_TRI = 3,
+    PROJECT_NAME = 4,
+    LOT_COUNT = 5,
+
+class FIELD_TYPE(IntEnum):
+    TEXT_LABEL = 1,
+    INPUT_AREA = 2,
+    SPACER = 3,
+

@@ -17,16 +17,16 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QLineEdit, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QVBoxLayout, QWidget)
+    QLabel, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 import ui.res_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1442, 853)
+        MainWindow.resize(1442, 855)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -98,11 +98,18 @@ class Ui_MainWindow(object):
         self.scrollArea_main.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1496, 736))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1420, 755))
         self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
+        self.label_sn2 = QLabel(self.scrollAreaWidgetContents)
+        self.label_sn2.setObjectName(u"label_sn2")
+        self.label_sn2.setFont(font)
+        self.label_sn2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.gridLayout.addWidget(self.label_sn2, 0, 2, 1, 1)
+
         self.label_result = QLabel(self.scrollAreaWidgetContents)
         self.label_result.setObjectName(u"label_result")
         self.label_result.setFont(font)
@@ -110,38 +117,16 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_result, 0, 6, 1, 1)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.field_number_0 = QLabel(self.scrollAreaWidgetContents)
-        self.field_number_0.setObjectName(u"field_number_0")
-        self.field_number_0.setFont(font)
+        self.horizontalSpacer_header_delitel = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout.addWidget(self.field_number_0)
+        self.gridLayout.addItem(self.horizontalSpacer_header_delitel, 0, 4, 1, 1)
 
+        self.label_sn3 = QLabel(self.scrollAreaWidgetContents)
+        self.label_sn3.setObjectName(u"label_sn3")
+        self.label_sn3.setFont(font)
+        self.label_sn3.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
-
-        self.lineEdit_sn2_0 = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_sn2_0.setObjectName(u"lineEdit_sn2_0")
-        self.lineEdit_sn2_0.setMinimumSize(QSize(400, 0))
-        font1 = QFont()
-        font1.setPointSize(14)
-        self.lineEdit_sn2_0.setFont(font1)
-        self.lineEdit_sn2_0.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_sn2_0.setClearButtonEnabled(True)
-
-        self.gridLayout.addWidget(self.lineEdit_sn2_0, 1, 2, 1, 1)
-
-        self.lineEdit_result_0 = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_result_0.setObjectName(u"lineEdit_result_0")
-        self.lineEdit_result_0.setFont(font1)
-        self.lineEdit_result_0.setFrame(False)
-        self.lineEdit_result_0.setDragEnabled(False)
-        self.lineEdit_result_0.setReadOnly(True)
-        self.lineEdit_result_0.setCursorMoveStyle(Qt.CursorMoveStyle.LogicalMoveStyle)
-        self.lineEdit_result_0.setClearButtonEnabled(False)
-
-        self.gridLayout.addWidget(self.lineEdit_result_0, 1, 6, 1, 1)
+        self.gridLayout.addWidget(self.label_sn3, 0, 3, 1, 1)
 
         self.label_sn1 = QLabel(self.scrollAreaWidgetContents)
         self.label_sn1.setObjectName(u"label_sn1")
@@ -149,37 +134,6 @@ class Ui_MainWindow(object):
         self.label_sn1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.gridLayout.addWidget(self.label_sn1, 0, 1, 1, 1)
-
-        self.lineEdit_sn3_0 = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_sn3_0.setObjectName(u"lineEdit_sn3_0")
-        self.lineEdit_sn3_0.setMinimumSize(QSize(400, 0))
-        self.lineEdit_sn3_0.setFont(font1)
-        self.lineEdit_sn3_0.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_sn3_0.setClearButtonEnabled(True)
-
-        self.gridLayout.addWidget(self.lineEdit_sn3_0, 1, 3, 1, 1)
-
-        self.label_number = QLabel(self.scrollAreaWidgetContents)
-        self.label_number.setObjectName(u"label_number")
-        self.label_number.setFont(font)
-        self.label_number.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_number, 0, 0, 1, 1)
-
-        self.lineEdit_data_0 = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_data_0.setObjectName(u"lineEdit_data_0")
-        self.lineEdit_data_0.setFont(font1)
-        self.lineEdit_data_0.setFrame(False)
-        self.lineEdit_data_0.setReadOnly(True)
-
-        self.gridLayout.addWidget(self.lineEdit_data_0, 1, 5, 1, 1)
-
-        self.label_sn2 = QLabel(self.scrollAreaWidgetContents)
-        self.label_sn2.setObjectName(u"label_sn2")
-        self.label_sn2.setFont(font)
-        self.label_sn2.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.gridLayout.addWidget(self.label_sn2, 0, 2, 1, 1)
 
         self.label_data = QLabel(self.scrollAreaWidgetContents)
         self.label_data.setObjectName(u"label_data")
@@ -189,34 +143,12 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_data, 0, 5, 1, 1)
 
-        self.label_sn3 = QLabel(self.scrollAreaWidgetContents)
-        self.label_sn3.setObjectName(u"label_sn3")
-        self.label_sn3.setFont(font)
-        self.label_sn3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_number = QLabel(self.scrollAreaWidgetContents)
+        self.label_number.setObjectName(u"label_number")
+        self.label_number.setFont(font)
+        self.label_number.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.gridLayout.addWidget(self.label_sn3, 0, 3, 1, 1)
-
-        self.lineEdit_sn1_0 = QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit_sn1_0.setObjectName(u"lineEdit_sn1_0")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.lineEdit_sn1_0.sizePolicy().hasHeightForWidth())
-        self.lineEdit_sn1_0.setSizePolicy(sizePolicy1)
-        self.lineEdit_sn1_0.setMinimumSize(QSize(400, 0))
-        self.lineEdit_sn1_0.setFont(font1)
-        self.lineEdit_sn1_0.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_sn1_0.setClearButtonEnabled(True)
-
-        self.gridLayout.addWidget(self.lineEdit_sn1_0, 1, 1, 1, 1)
-
-        self.horizontalSpacer_header_delitel = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer_header_delitel, 0, 4, 1, 1)
-
-        self.horizontalSpacer_field_delitel_0 = QSpacerItem(18, 18, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer_field_delitel_0, 1, 4, 1, 1)
+        self.gridLayout.addWidget(self.label_number, 0, 0, 1, 1)
 
 
         self.verticalLayout.addLayout(self.gridLayout)
@@ -277,13 +209,12 @@ class Ui_MainWindow(object):
         self.action_instruction.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f", None))
         self.label_tv_name.setText(QCoreApplication.translate("MainWindow", u"TV NAME", None))
         self.pushButton_two_window.setText("")
-        self.label_result.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442:", None))
-        self.field_number_0.setText(QCoreApplication.translate("MainWindow", u"1", None))
-        self.label_sn1.setText(QCoreApplication.translate("MainWindow", u"SN1:", None))
-        self.label_number.setText(QCoreApplication.translate("MainWindow", u"\u2116:", None))
         self.label_sn2.setText(QCoreApplication.translate("MainWindow", u"SN2:", None))
-        self.label_data.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u0442\u0430:", None))
+        self.label_result.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442:", None))
         self.label_sn3.setText(QCoreApplication.translate("MainWindow", u"SN3:", None))
+        self.label_sn1.setText(QCoreApplication.translate("MainWindow", u"SN1:", None))
+        self.label_data.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u0442\u0430:", None))
+        self.label_number.setText(QCoreApplication.translate("MainWindow", u"\u2116:", None))
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0435\u043a\u0442", None))
         self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.menu_3.setTitle(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f", None))
