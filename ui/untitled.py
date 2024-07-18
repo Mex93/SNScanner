@@ -16,17 +16,17 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
+    QHBoxLayout, QLabel, QLayout, QMainWindow,
+    QMenu, QMenuBar, QPushButton, QSizePolicy,
+    QSpacerItem, QVBoxLayout, QWidget)
 import ui.res_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1442, 855)
+        MainWindow.resize(1582, 880)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -56,10 +56,10 @@ class Ui_MainWindow(object):
         self.action_instruction.setObjectName(u"action_instruction")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.horizontalLayout_4 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_6 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -90,27 +90,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.pushButton_two_window)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_2)
 
-        self.scrollArea_main = QScrollArea(self.centralwidget)
-        self.scrollArea_main.setObjectName(u"scrollArea_main")
-        self.scrollArea_main.setFrameShadow(QFrame.Shadow.Sunken)
-        self.scrollArea_main.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1420, 755))
-        self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.groupBox_main = QGroupBox(self.centralwidget)
+        self.groupBox_main.setObjectName(u"groupBox_main")
+        self.verticalLayout_4 = QVBoxLayout(self.groupBox_main)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label_sn2 = QLabel(self.scrollAreaWidgetContents)
+        self.gridLayout.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.label_sn2 = QLabel(self.groupBox_main)
         self.label_sn2.setObjectName(u"label_sn2")
         self.label_sn2.setFont(font)
         self.label_sn2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.gridLayout.addWidget(self.label_sn2, 0, 2, 1, 1)
 
-        self.label_result = QLabel(self.scrollAreaWidgetContents)
+        self.label_result = QLabel(self.groupBox_main)
         self.label_result.setObjectName(u"label_result")
         self.label_result.setFont(font)
         self.label_result.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -121,21 +119,21 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addItem(self.horizontalSpacer_header_delitel, 0, 4, 1, 1)
 
-        self.label_sn3 = QLabel(self.scrollAreaWidgetContents)
+        self.label_sn3 = QLabel(self.groupBox_main)
         self.label_sn3.setObjectName(u"label_sn3")
         self.label_sn3.setFont(font)
         self.label_sn3.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.gridLayout.addWidget(self.label_sn3, 0, 3, 1, 1)
 
-        self.label_sn1 = QLabel(self.scrollAreaWidgetContents)
+        self.label_sn1 = QLabel(self.groupBox_main)
         self.label_sn1.setObjectName(u"label_sn1")
         self.label_sn1.setFont(font)
         self.label_sn1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.gridLayout.addWidget(self.label_sn1, 0, 1, 1, 1)
 
-        self.label_data = QLabel(self.scrollAreaWidgetContents)
+        self.label_data = QLabel(self.groupBox_main)
         self.label_data.setObjectName(u"label_data")
         self.label_data.setFont(font)
         self.label_data.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
@@ -143,7 +141,7 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_data, 0, 5, 1, 1)
 
-        self.label_number = QLabel(self.scrollAreaWidgetContents)
+        self.label_number = QLabel(self.groupBox_main)
         self.label_number.setObjectName(u"label_number")
         self.label_number.setFont(font)
         self.label_number.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -151,23 +149,65 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label_number, 0, 0, 1, 1)
 
 
-        self.verticalLayout.addLayout(self.gridLayout)
-
-        self.verticalSpacer_main = QSpacerItem(20, 628, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout.addItem(self.verticalSpacer_main)
-
-        self.scrollArea_main.setWidget(self.scrollAreaWidgetContents)
-
-        self.verticalLayout_2.addWidget(self.scrollArea_main)
+        self.verticalLayout_4.addLayout(self.gridLayout)
 
 
-        self.horizontalLayout_4.addLayout(self.verticalLayout_2)
+        self.horizontalLayout.addWidget(self.groupBox_main)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_3.addItem(self.verticalSpacer_2)
+
+        self.frame = QFrame(self.centralwidget)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.frame)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.pushButton_arrow_up = QPushButton(self.frame)
+        self.pushButton_arrow_up.setObjectName(u"pushButton_arrow_up")
+        icon2 = QIcon()
+        icon2.addFile(u":/res/images/arrow_up.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton_arrow_up.setIcon(icon2)
+        self.pushButton_arrow_up.setIconSize(QSize(40, 40))
+        self.pushButton_arrow_up.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pushButton_arrow_up)
+
+        self.pushButton_arrow_down = QPushButton(self.frame)
+        self.pushButton_arrow_down.setObjectName(u"pushButton_arrow_down")
+        icon3 = QIcon()
+        icon3.addFile(u":/res/images/arrow_down.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pushButton_arrow_down.setIcon(icon3)
+        self.pushButton_arrow_down.setIconSize(QSize(40, 40))
+        self.pushButton_arrow_down.setFlat(True)
+
+        self.verticalLayout.addWidget(self.pushButton_arrow_down)
+
+
+        self.verticalLayout_2.addLayout(self.verticalLayout)
+
+
+        self.verticalLayout_3.addWidget(self.frame)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
+
+        self.horizontalLayout.setStretch(0, 2)
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout)
+
+
+        self.verticalLayout_6.addLayout(self.verticalLayout_5)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QMenuBar(MainWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 1442, 22))
+        self.menuBar.setGeometry(QRect(0, 0, 1582, 22))
         self.menu = QMenu(self.menuBar)
         self.menu.setObjectName(u"menu")
         self.menu_2 = QMenu(self.menuBar)
@@ -209,12 +249,15 @@ class Ui_MainWindow(object):
         self.action_instruction.setText(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044f", None))
         self.label_tv_name.setText(QCoreApplication.translate("MainWindow", u"TV NAME", None))
         self.pushButton_two_window.setText("")
+        self.groupBox_main.setTitle(QCoreApplication.translate("MainWindow", u"CFields", None))
         self.label_sn2.setText(QCoreApplication.translate("MainWindow", u"SN2:", None))
         self.label_result.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442:", None))
         self.label_sn3.setText(QCoreApplication.translate("MainWindow", u"SN3:", None))
         self.label_sn1.setText(QCoreApplication.translate("MainWindow", u"SN1:", None))
         self.label_data.setText(QCoreApplication.translate("MainWindow", u"\u0414\u0430\u0442\u0430:", None))
         self.label_number.setText(QCoreApplication.translate("MainWindow", u"\u2116:", None))
+        self.pushButton_arrow_up.setText("")
+        self.pushButton_arrow_down.setText("")
         self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0435\u043a\u0442", None))
         self.menu_2.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.menu_3.setTitle(QCoreApplication.translate("MainWindow", u"\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f", None))

@@ -1,9 +1,10 @@
-from datetime import datetime
 import re
 from PySide6.QtWidgets import QMessageBox
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, QFont
 from PySide6.QtCore import QSize
+from datetime import datetime
+import time
 
 from enums import SMBOX_ICON_TYPE
 
@@ -86,6 +87,30 @@ def convert_date_from_sql_format(date: str):
     if string is False:
         string = ""
     return string
+
+
+def get_data_stamp_from_unix_time(cur_unix_time,
+                                  stamp_format: str = "%Y-%m-%d %H:%M:%S %z") -> str:
+    """
+    Получит временной штамп исходя из полученного unix time сначала эпохи
+    Вернёт полученный штамп в виде строки указанного формата в параметрах
+
+    :param stamp_format:
+    :param cur_unix_time:
+    :return:
+    """
+    s = time.strftime(stamp_format, time.gmtime(cur_unix_time))  # смещение для UTC
+    return s
+
+
+def get_current_data_stamp():
+    unix = get_current_unix_time() + 3600 * 3  # поправка на время +3
+    return get_data_stamp_from_unix_time(unix)
+
+
+def get_current_data_stamp_ex():
+    unix = get_current_unix_time() + 3600 * 3  # поправка на время +3
+    return get_data_stamp_from_unix_time(unix, stamp_format="%Y-%m-%d %H:%M:%S")
 
 
 def is_pallet_text_valid(text: str) -> bool:

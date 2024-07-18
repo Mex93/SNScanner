@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="res">
+    <file>images/arrow_down.svg</file>
+    <file>images/arrow_up.svg</file>
     <file>images/logo.ico</file>
     <file>images/select_window_closed.svg</file>
     <file>images/disabled_by_default.svg</file>

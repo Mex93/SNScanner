@@ -50,9 +50,15 @@ class CONFIG_MENU_FIELD_TYPE(IntEnum):
     SN_TRI = 3,
     PROJECT_NAME = 4,
     LOT_COUNT = 5,
+    SNS_COUNT = 6,
 
 class FIELD_TYPE(IntEnum):
     TEXT_LABEL = 1,
     INPUT_AREA = 2,
     SPACER = 3,
+
+class WINDOW_TYPE(IntEnum):
+    CREATE = 1,
+    CONFIG = 2,
+    OPEN = 3,
 

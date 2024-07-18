@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "C:/Users/Ryazanov/PycharmProjects/crypter/main.py"
+   "value": "C:/Users/Ryazanov/PycharmProjects/SNScanner/main.py"
   },
   {
    "optionDest": "onefile",
@@ -19,11 +19,11 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "C:/Users/Ryazanov/PycharmProjects/crypter/logo.ico"
+   "value": "C:/Users/Ryazanov/PycharmProjects/SNScanner/ui/images/logo.ico"
   },
   {
    "optionDest": "name",
-   "value": "\u0428\u0438\u0444\u0440\u0430\u0442\u043e\u0440 \u043f\u0430\u0440\u043e\u043b\u044f \u041a\u0432\u0430\u043d\u0442 2024 v0.1"
+   "value": "\u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u043a\u043e\u043c\u043f\u043b\u0435\u043a\u0442\u043d\u043e\u0441\u0442\u0438 v0.1"
   },
   {
    "optionDest": "contents_directory",
@@ -60,14 +60,6 @@
   {
    "optionDest": "bootloader_ignore_signals",
    "value": false
-  },
-  {
-   "optionDest": "datas",
-   "value": "C:/Users/Ryazanov/PycharmProjects/crypter/logo.ico;."
-  },
-  {
-   "optionDest": "datas",
-   "value": "C:/Users/Ryazanov/PycharmProjects/crypter/ui;ui/"
   }
  ],
  "nonPyinstallerOptions": {
