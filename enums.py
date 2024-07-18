@@ -17,6 +17,7 @@ class OPEN_WINDOW_TYPE(IntEnum):
 class SN_COUNT_TYPE(IntEnum):
     SN_DOUBLE = 1,
     SN_TRIPLE = 2,
+    SN_NONE = 3,
 
 class PROJECT_TYPE(IntEnum):
     NEW_PROJECT = 1,

@@ -72,6 +72,25 @@ class CProject:
                 cls.__current_project_name = set_value
             case CONFIG_MENU_FIELD_TYPE.LOT_COUNT:
                 cls.lot_count = set_value
+            case CONFIG_MENU_FIELD_TYPE.SNS_COUNT:
+                cls.sn_type_changed = set_value
+
+    @classmethod
+    def get_field_value(cls, field_type: CONFIG_MENU_FIELD_TYPE) -> str | int | SN_COUNT_TYPE:
+        """ Задаст значение и переменной и филду! """
+        match field_type:
+            case CONFIG_MENU_FIELD_TYPE.SN_ONE:
+                return cls.sn_1_name
+            case CONFIG_MENU_FIELD_TYPE.SN_TWO:
+                return cls.sn_2_name
+            case CONFIG_MENU_FIELD_TYPE.SN_TRI:
+                return cls.sn_3_name
+            case CONFIG_MENU_FIELD_TYPE.PROJECT_NAME:
+                return cls.__current_project_name
+            case CONFIG_MENU_FIELD_TYPE.LOT_COUNT:
+                return cls.lot_count
+            case CONFIG_MENU_FIELD_TYPE.SNS_COUNT:
+                return cls.sn_type_changed
     ###
     @classmethod
     def set_project_name(cls, name: str) -> bool:
@@ -80,7 +99,3 @@ class CProject:
             return True
         else:
             raise ValueError("No name for project")
-
-    @classmethod
-    def get_project_name(cls) -> str:
-        return cls.__current_project_name
