@@ -15,7 +15,8 @@ from common import send_message_box
 from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID, PROGRAM_STATUS, PROJECT_TYPE
 from classes.CDB import CDatabase
 from classes.CProject import CProject
-from classes.CInputArea import CInputArea, CInputUnit, MAX_LOT_COUNT, MIN_LOT_COUNT, MAX_FIELDS_ON_PAGE
+from classes.CInputArea import CInputArea, CInputUnit
+from common import MAX_LOT_COUNT, MIN_LOT_COUNT, MAX_FIELDS_ON_PAGE
 
 
 class CProjectWindow(QMainWindow):
@@ -217,6 +218,22 @@ class CProjectWindow(QMainWindow):
 
                     CInputArea.set_start()
                     mw.switch_program_status(PROGRAM_STATUS.IN_JOB)
+
+                    db_unit = CDatabase()
+                    try:
+
+                        handler: CDatabase = db_unit.connect_to_db(CDatabase.get_db_name())
+                        if handler:
+                            db_unit.create_project_settings_table()
+                            row_id = db_unit.insert_new_project()
+                            if row_id:
+                                db_unit.create_project_fields_table(row_id)
+
+                    except Exception as err:
+                        logging.critical(f"Ошибка!!! {err}", )
+                        print(f"Ошибка!!! {err}", )
+                    finally:
+                        db_unit.disconnect()
 
                     self.hide()
 

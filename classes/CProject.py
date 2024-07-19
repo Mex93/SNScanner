@@ -1,6 +1,6 @@
 from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, PROJECT_TYPE, PROGRAM_STATUS, CONFIG_MENU_FIELD_TYPE
 from ui.untitled import Ui_MainWindow
-
+from common import MAX_LOT_COUNT
 
 class CProject:
     __project_current_status: PROJECT_TYPE = PROJECT_TYPE.NONE_PROJECT
@@ -43,6 +43,9 @@ class CProject:
             return 'SN2'
         elif config_id == CONFIG_MENU_FIELD_TYPE.SN_TRI:
             return 'SN3'
+        elif config_id == CONFIG_MENU_FIELD_TYPE.MAX_LOT_COUNT:
+            return MAX_LOT_COUNT
+
 
     @classmethod
     def set_sql_config_id(cls, cid: int):

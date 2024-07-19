@@ -52,6 +52,7 @@ class CONFIG_MENU_FIELD_TYPE(IntEnum):
     PROJECT_NAME = 4,
     LOT_COUNT = 5,
     SNS_COUNT = 6,
+    MAX_LOT_COUNT = 7
 
 class FIELD_TYPE(IntEnum):
     TEXT_LABEL = 1,

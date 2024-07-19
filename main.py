@@ -15,8 +15,9 @@ from common import send_message_box
 from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID, PROGRAM_STATUS, PROJECT_TYPE
 from classes.CDB import CDatabase
 from classes.CProject import CProject
-from classes.CInputArea import CInputArea, CInputUnit, MAX_LOT_COUNT, MAX_FIELDS_ON_PAGE
+from classes.CInputArea import CInputArea, CInputUnit
 from classes.CProjectWindow import CProjectWindow
+
 
 
 # pyside6-uic .\ui\untitled.ui -o .\ui\untitled.py
@@ -40,7 +41,6 @@ class MainWindow(QMainWindow):
         CProject.set_default()
         CInputArea.set_main_window(self.ui)
 
-        self.db_unit = CDatabase()
         CInputUnit.set_main_window(main_window=self.ui)
         CInputArea.set_name_for_labels()
 
@@ -69,10 +69,7 @@ class MainWindow(QMainWindow):
         self.set_config_menu(True)
 
     def on_user_focus(self):
-        handler: CDatabase = self.db_unit.connect_to_db("my_test")
-        if handler:
-            print(handler)
-            self.db_unit.disconnect()
+        pass
 
     def set_create_menu(self, status: bool):
         if status:
@@ -90,8 +87,8 @@ class MainWindow(QMainWindow):
 
     def set_program_to_default_state(self):
 
-        # CInputArea.set_start()
         self.switch_program_status(PROGRAM_STATUS.NO_PROJECT)
+        CInputArea.set_start()
 
         # self.carea_unit.set_field_data(5, FIELD_TYPE_ID.SN_2, "5TJKRJGIRWNJG")
         # for index in range(MAX_FIELDS_ON_PAGE):

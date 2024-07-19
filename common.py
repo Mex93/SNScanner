@@ -9,7 +9,10 @@ import time
 from enums import SMBOX_ICON_TYPE
 
 INFO_CURRENT_ADMIN_EMAIL = "ryazanov.n@tvkvant.ru"
-
+MAX_LOT_COUNT = 100
+MIN_LOT_COUNT = 20
+MAX_FIELDS_ON_PAGE = 20
+TEXT_ON_RESULT_FIELD = "OK"
 
 def get_rules_text() -> str:
     return (

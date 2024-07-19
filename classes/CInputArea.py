@@ -16,11 +16,9 @@ from ui.untitled import Ui_MainWindow
 from classes.CProject import CProject
 from enums import FIELD_TYPE_ID, FIELD_TYPE, SN_COUNT_TYPE, CONFIG_MENU_FIELD_TYPE
 from common import get_current_data_stamp_ex
+from common import MAX_LOT_COUNT, MIN_LOT_COUNT, MAX_FIELDS_ON_PAGE, TEXT_ON_RESULT_FIELD
 
-MAX_LOT_COUNT = 100
-MIN_LOT_COUNT = 20
-MAX_FIELDS_ON_PAGE = 20
-TEXT_ON_RESULT_FIELD = "OK"
+
 
 
 class CInputUnit:
