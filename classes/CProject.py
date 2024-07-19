@@ -15,7 +15,34 @@ class CProject:
 
     @classmethod
     def set_default(cls):
-        pass
+        project_name = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.PROJECT_NAME)
+        sn1 = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_ONE)
+        sn2 = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_TWO)
+        sn3 = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_TRI)
+        sns_count = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.SNS_COUNT)
+        lot_count = cls.get_default_fields(CONFIG_MENU_FIELD_TYPE.LOT_COUNT)
+        #
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.PROJECT_NAME, project_name)
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.SN_ONE, sn1)
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.SN_TWO, sn2)
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.SN_TRI, sn3)
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT, sns_count)
+        cls.set_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT, lot_count)
+
+    @classmethod
+    def get_default_fields(cls, config_id: CONFIG_MENU_FIELD_TYPE):
+        if config_id == CONFIG_MENU_FIELD_TYPE.SNS_COUNT:
+            return SN_COUNT_TYPE.SN_DOUBLE
+        elif config_id == CONFIG_MENU_FIELD_TYPE.PROJECT_NAME:
+            return 'My Project'
+        elif config_id == CONFIG_MENU_FIELD_TYPE.LOT_COUNT:
+            return 500
+        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_ONE:
+            return 'SN1'
+        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_TWO:
+            return 'SN2'
+        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_TRI:
+            return 'SN3'
 
     @classmethod
     def set_sql_config_id(cls, cid: int):
@@ -88,9 +115,10 @@ class CProject:
             case CONFIG_MENU_FIELD_TYPE.PROJECT_NAME:
                 return cls.__current_project_name
             case CONFIG_MENU_FIELD_TYPE.LOT_COUNT:
-                return cls.lot_count
+                return int(cls.lot_count)
             case CONFIG_MENU_FIELD_TYPE.SNS_COUNT:
                 return cls.sn_type_changed
+
     ###
     @classmethod
     def set_project_name(cls, name: str) -> bool:

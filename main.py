@@ -16,14 +16,12 @@ from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID, PROGRAM_STATUS,
 from classes.CDB import CDatabase
 from classes.CProject import CProject
 from classes.CInputArea import CInputArea, CInputUnit, MAX_LOT_COUNT, MAX_FIELDS_ON_PAGE
-from classes.CProjectWindow import CCreateWindow
+from classes.CProjectWindow import CProjectWindow
+
 
 # pyside6-uic .\ui\untitled.ui -o .\ui\untitled.py
 # pyside6-rcc .\ui\res.qrc -o .\ui\res_rc.py
 # Press the green button in the gutter to run the script.
-
-
-
 
 
 class MainWindow(QMainWindow):
@@ -37,12 +35,14 @@ class MainWindow(QMainWindow):
         QFontDatabase.addApplicationFont("designs/Iosevka Bold.ttf")
         self.setWindowTitle(f'SN Scan Квант 2024 v0.1')
 
-        self.create_project_window = CCreateWindow(WINDOW_TYPE.CREATE, self)
-        self.config_project_window = CCreateWindow(WINDOW_TYPE.CONFIG, self)
+        self.create_project_window = CProjectWindow(WINDOW_TYPE.CREATE, self)
+        self.config_project_window = CProjectWindow(WINDOW_TYPE.CONFIG, self)
+        CProject.set_default()
+        CInputArea.set_main_window(self.ui)
 
         self.db_unit = CDatabase()
-        self.carea_unit = CInputArea()
         CInputUnit.set_main_window(main_window=self.ui)
+        CInputArea.set_name_for_labels()
 
         # connects
         # self.ui.pb_code.clicked.connect(self.on_user_clicked_convert_button)
@@ -57,10 +57,10 @@ class MainWindow(QMainWindow):
         self.set_program_to_default_state()
 
     def on_user_press_up_btn(self):
-        self.carea_unit.set_down_page()
+        CInputArea.set_down_page()
 
     def on_user_press_down_btn(self):
-        self.carea_unit.set_next_page()
+        CInputArea.set_next_page()
 
     def on_user_clicked_new_project(self):
         self.set_create_menu(True)
@@ -90,8 +90,9 @@ class MainWindow(QMainWindow):
 
     def set_program_to_default_state(self):
 
-        self.carea_unit.set_start()
+        # CInputArea.set_start()
         self.switch_program_status(PROGRAM_STATUS.NO_PROJECT)
+
         # self.carea_unit.set_field_data(5, FIELD_TYPE_ID.SN_2, "5TJKRJGIRWNJG")
         # for index in range(MAX_FIELDS_ON_PAGE):
         #     self.carea_unit.append_new_field_on_index()
@@ -132,10 +133,10 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
 
-    logging.basicConfig(level=logging.DEBUG, filename="program.log", filemode="w")
+    logging.basicConfig(level=logging.DEBUG, filename="py_log.log", filemode="w",
+                        format="%(asctime)s %(levelname)s %(message)s")
     sys.exit(app.exec())

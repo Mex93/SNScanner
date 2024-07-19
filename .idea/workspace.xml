@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92c29435-1530-4ad2-b8f5-6658d6a30aeb" name="Changes" comment="building...">
-      <change afterPath="$PROJECT_DIR$/ui/images/arrow_down.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/images/arrow_up.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/build_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/CInputArea.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/CInputArea.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes/CProject.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/CProject.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/CProjectConfig.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/enums.py" beforeDir="false" afterPath="$PROJECT_DIR$/enums.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/CProjectWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes/CProjectWindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/res.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/ui/res.qrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/res_rc.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/res_rc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/untitled.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/untitled.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/untitled.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/untitled.ui" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,9 +30,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2jH1uIL2crzUdDfdbIGnHzubOkw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -53,7 +45,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/Ryazanov/PycharmProjects/SNScanner/ui/images"
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Ryazanov/PycharmProjects/SNScanner"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -139,7 +132,23 @@
       <option name="project" value="LOCAL" />
       <updated>1721223999332</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="building...">
+      <option name="closed" value="true" />
+      <created>1721308100203</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1721308100203</updated>
+    </task>
+    <task id="LOCAL-00006" summary="building...">
+      <option name="closed" value="true" />
+      <created>1721309533582</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1721309533582</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

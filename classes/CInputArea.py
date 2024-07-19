@@ -13,10 +13,12 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
 
 from ui.untitled import Ui_MainWindow
 
-from enums import FIELD_TYPE_ID, FIELD_TYPE
+from classes.CProject import CProject
+from enums import FIELD_TYPE_ID, FIELD_TYPE, SN_COUNT_TYPE, CONFIG_MENU_FIELD_TYPE
 from common import get_current_data_stamp_ex
 
-MAX_LOT_COUNT = 3000
+MAX_LOT_COUNT = 100
+MIN_LOT_COUNT = 20
 MAX_FIELDS_ON_PAGE = 20
 TEXT_ON_RESULT_FIELD = "OK"
 
@@ -185,6 +187,7 @@ class CInputArea:
     for index in range(MAX_LOT_COUNT):
         __list_of_input.append([index, None])
 
+    __main_window: Ui_MainWindow = None
     __table_index = 0
     __current_page = 1
 
@@ -193,37 +196,82 @@ class CInputArea:
         cls.set_next_page()
 
     @classmethod
+    def set_main_window(cls, mwindow: Ui_MainWindow):
+        cls.__main_window = mwindow
+
+    @classmethod
+    def get_main_window(cls) -> Ui_MainWindow:
+        return cls.__main_window
+
+    @classmethod
+    def set_name_for_labels(cls):
+        sn1 = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SN_ONE)
+        sn2 = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SN_TWO)
+        sn3 = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SN_TRI)
+        project_name = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.PROJECT_NAME)
+        sns_count = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT)
+        mw = cls.get_main_window()
+
+        mw.label_sn1.setText(sn1)
+        mw.label_sn2.setText(sn2)
+        mw.label_sn3.setText(sn3)
+        mw.label_tv_name.setText(project_name)
+
+        if sns_count == SN_COUNT_TYPE.SN_DOUBLE:
+            mw.label_sn3.hide()
+        elif sns_count == SN_COUNT_TYPE.SN_TRIPLE:
+            mw.label_sn3.show()
+
+
+
+    @classmethod
     def set_down_page(cls):
         if cls.__table_index > MAX_FIELDS_ON_PAGE:
             cls.delete_fields()
             cls.__current_page -= 1
 
             cls.__table_index -= MAX_FIELDS_ON_PAGE * 2
+            if cls.__table_index < 0:
+                cls.__table_index = 0
             cls.set_render_fields()
 
     @classmethod
     def set_next_page(cls):
-        if cls.__table_index < MAX_LOT_COUNT:
+        lot_count = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT)
+        if cls.__table_index < lot_count:
             cls.delete_fields()
             cls.__current_page += 1
+
+            tindex = cls.__table_index
+            result = lot_count - tindex
+            if result < MAX_FIELDS_ON_PAGE:
+                cls.__table_index = lot_count - MAX_FIELDS_ON_PAGE
 
             cls.set_render_fields()
 
     @classmethod
-    def set_render_fields(cls):
-        for index in range(MAX_FIELDS_ON_PAGE):
-            unit_list = list()
-            tindex = cls.__table_index
+    def set_render_fields(cls) -> int | None:
 
-            fields = [
-                FIELD_TYPE_ID.NUMBER_LABEL,
-                FIELD_TYPE_ID.SN_1,
-                FIELD_TYPE_ID.SN_2,
-                FIELD_TYPE_ID.SN_3,
-                # FIELD_TYPE_ID.HORIZONTAL_SPACER,
-                FIELD_TYPE_ID.SCAN_DATA,
-                FIELD_TYPE_ID.RESULT_STATUS
-            ]
+        fields = [
+            FIELD_TYPE_ID.NUMBER_LABEL,
+            FIELD_TYPE_ID.SN_1,
+            FIELD_TYPE_ID.SN_2]
+
+        if CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT) == SN_COUNT_TYPE.SN_TRIPLE:
+            fields.append(FIELD_TYPE_ID.SN_3)
+        fields.append(
+            # FIELD_TYPE_ID.HORIZONTAL_SPACER,
+            FIELD_TYPE_ID.SCAN_DATA)
+        fields.append(
+            FIELD_TYPE_ID.RESULT_STATUS)
+
+        for index in range(MAX_FIELDS_ON_PAGE):
+
+            tindex = cls.__table_index
+            print(tindex, CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT))
+            if tindex >= CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT):
+                return
+            unit_list = list()
 
             for ftype in fields:
                 field_unit = CInputUnit(ftype, tindex)
@@ -250,9 +298,20 @@ class CInputArea:
         units_in_line = cls.get_units_in_line(index)
 
         if units_in_line is not None:
+            max_index = 0
+
+            check_list = [FIELD_TYPE_ID.SN_1, FIELD_TYPE_ID.SN_2]
+            sns_count = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT)
+            if sns_count == SN_COUNT_TYPE.SN_TRIPLE:
+                max_index = 2
+                check_list.append(FIELD_TYPE_ID.SN_3)
+            else:
+                max_index = 1
+
             sns_result = []
+
             for unit in units_in_line:
-                if unit.get_field_type_id() in (FIELD_TYPE_ID.SN_1, FIELD_TYPE_ID.SN_2, FIELD_TYPE_ID.SN_3):
+                if unit.get_field_type_id() in check_list:
                     sns_result.append(unit.get_data())
 
             is_any_text = False
@@ -265,7 +324,7 @@ class CInputArea:
             date_unit = cls.get_unit(units_in_line, FIELD_TYPE_ID.SCAN_DATA)
             widjet = result_unit.get_widjet_unit()
 
-            if sns_result[0] == sns_result[1] == sns_result[2] and sns_result[0]:
+            if sns_result[0] == sns_result[1] == sns_result[max_index] and sns_result[0]:
                 result_unit.set_data(TEXT_ON_RESULT_FIELD)
                 widjet.setStyleSheet(u"background: green")
                 cdate = get_current_data_stamp_ex()

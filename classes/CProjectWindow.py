@@ -15,10 +15,10 @@ from common import send_message_box
 from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID, PROGRAM_STATUS, PROJECT_TYPE
 from classes.CDB import CDatabase
 from classes.CProject import CProject
-from classes.CInputArea import CInputArea, CInputUnit, MAX_LOT_COUNT, MAX_FIELDS_ON_PAGE
+from classes.CInputArea import CInputArea, CInputUnit, MAX_LOT_COUNT, MIN_LOT_COUNT, MAX_FIELDS_ON_PAGE
 
 
-class CCreateWindow(QMainWindow):
+class CProjectWindow(QMainWindow):
     def __init__(self, window_type: WINDOW_TYPE, main_window, parent=None):
         super().__init__(parent)
         self.window_type = window_type
@@ -80,18 +80,8 @@ class CCreateWindow(QMainWindow):
             self.set_default_fields(cid)
 
     def set_default_fields(self, config_id: CONFIG_MENU_FIELD_TYPE):
-        if config_id == CONFIG_MENU_FIELD_TYPE.SNS_COUNT:
-            self.set_field_value(config_id, SN_COUNT_TYPE.SN_DOUBLE)
-        elif config_id == CONFIG_MENU_FIELD_TYPE.PROJECT_NAME:
-            self.set_field_value(config_id, "My Project")
-        elif config_id == CONFIG_MENU_FIELD_TYPE.LOT_COUNT:
-            self.set_field_value(config_id, 500)
-        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_ONE:
-            self.set_field_value(config_id, "SN1")
-        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_TWO:
-            self.set_field_value(config_id, "SN2")
-        elif config_id == CONFIG_MENU_FIELD_TYPE.SN_TRI:
-            self.set_field_value(config_id, "SN3")
+        var = CProject.get_default_fields(config_id)
+        self.set_field_value(config_id, var)
 
     def rehide_sns3_changed_field(self):
 
@@ -137,13 +127,13 @@ class CCreateWindow(QMainWindow):
                 let_success = False
                 if input_text.isdigit():
                     count = int(input_text)
-                    if 1 < count < MAX_LOT_COUNT:
+                    if MIN_LOT_COUNT < count < MAX_LOT_COUNT:
                         let_success = True
 
                 if not let_success:
                     send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_WARNING,
                                      text="Ошибка во вводе!\n"
-                                          f"Количество лота может быть от 1 до {MAX_LOT_COUNT} штук!",
+                                          f"Количество лота может быть от {MIN_LOT_COUNT} до {MAX_LOT_COUNT} штук!",
                                      title="Внимание!",
                                      variant_yes="Закрыть", variant_no="", callback=None)
                     self.set_default_fields(sn_type)
@@ -223,9 +213,12 @@ class CCreateWindow(QMainWindow):
                     CProject.set_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT, sns_type)
 
                     CProject.set_project_current_status(PROJECT_TYPE.NEW_PROJECT)
-                    mw.carea_unit.delete_fields()
+                    CInputArea.set_name_for_labels()
 
+                    CInputArea.set_start()
                     mw.switch_program_status(PROGRAM_STATUS.IN_JOB)
+
+                    self.hide()
 
     def on_user_pressed_default(self):
         self.set_default_all_fields()
