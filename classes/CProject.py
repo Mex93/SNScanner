@@ -2,6 +2,8 @@ from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, PROJECT_TYPE, PROGRAM_STATUS, 
 from ui.untitled import Ui_MainWindow
 from common import MAX_LOT_COUNT
 
+
+
 class CProject:
     __project_current_status: PROJECT_TYPE = PROJECT_TYPE.NONE_PROJECT
     lot_count = 0
@@ -10,8 +12,8 @@ class CProject:
     sn_3_name = None
     sn_type_changed = None
     __current_project_name = None
-    __sql_project_config_id = 0
-    __sql_project_data_table_id = 0
+    __sql_project_config_id: int = 0
+    __sql_project_data_table_name: str = ''
 
     @classmethod
     def set_default(cls):
@@ -46,7 +48,6 @@ class CProject:
         elif config_id == CONFIG_MENU_FIELD_TYPE.MAX_LOT_COUNT:
             return MAX_LOT_COUNT
 
-
     @classmethod
     def set_sql_config_id(cls, cid: int):
         if isinstance(cid, int):
@@ -55,16 +56,16 @@ class CProject:
             raise TypeError("SQL Config ID is not integer!")
 
     @classmethod
-    def set_sql_data_id(cls, cid: int):
-        if isinstance(cid, int):
-            cls.__sql_project_data_table_id = cid
+    def set_sql_data_tname(cls, ctablename: str):
+        if isinstance(ctablename, str):
+            cls.__sql_project_data_table_name = ctablename
         else:
             raise TypeError("SQL Data Table ID is not integer!")
 
     @classmethod
     def get_data_sql_table_name(cls) -> str:
-        if cls.__sql_project_data_table_id:
-            return f"project_data_{cls.__sql_project_data_table_id}"
+        if cls.__sql_project_data_table_name:
+            return f"project_data_{cls.__sql_project_data_table_name}"
         else:
             raise ValueError("SQL Table Name is Null")
 

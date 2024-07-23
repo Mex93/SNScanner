@@ -13,7 +13,7 @@ from ui.config_project_menu import Ui_MainWindow as UI_ConfigWindow
 from enums import CONFIG_MENU_FIELD_TYPE, WINDOW_TYPE
 from common import send_message_box
 from enums import SMBOX_ICON_TYPE, SN_COUNT_TYPE, FIELD_TYPE_ID, PROGRAM_STATUS, PROJECT_TYPE
-from classes.CDB import CDatabase
+from classes.CDB import CDatabase, CDBTablesName
 from classes.CProject import CProject
 from classes.CInputArea import CInputArea, CInputUnit
 from common import MAX_LOT_COUNT, MIN_LOT_COUNT, MAX_FIELDS_ON_PAGE
@@ -213,29 +213,40 @@ class CProjectWindow(QMainWindow):
                     CProject.set_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT, lot_count)
                     CProject.set_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT, sns_type)
 
-                    CProject.set_project_current_status(PROJECT_TYPE.NEW_PROJECT)
-                    CInputArea.set_name_for_labels()
-
-                    CInputArea.set_start()
-                    mw.switch_program_status(PROGRAM_STATUS.IN_JOB)
-
                     db_unit = CDatabase()
                     try:
 
                         handler: CDatabase = db_unit.connect_to_db(CDatabase.get_db_name())
                         if handler:
-                            db_unit.create_project_settings_table()
-                            row_id = db_unit.insert_new_project()
-                            if row_id:
-                                db_unit.create_project_fields_table(row_id)
+                            if db_unit.set_transaction_begin():
+                                db_unit.create_project_settings_table(True)
+                                row_id = db_unit.insert_new_project(True)
+                                if row_id:
+                                    result = db_unit.create_project_fields_table(row_id, True)
+                                    if result:
+                                        db_unit.set_transaction_commit()
+                                        CProject.set_sql_config_id(row_id)
+                                        CProject.set_sql_data_tname(f'{CDBTablesName.fd_project_data_}{row_id}')
 
                     except Exception as err:
+                        db_unit.set_transaction_rollback()
+                        CProject.set_default()
+                        mw.switch_program_status(PROGRAM_STATUS.NO_PROJECT)
+
                         logging.critical(f"Ошибка!!! {err}", )
                         print(f"Ошибка!!! {err}", )
+
+                    else:
+                        CProject.set_project_current_status(PROJECT_TYPE.NEW_PROJECT)
+                        CInputArea.set_name_for_labels()
+
+                        CInputArea.set_start()
+                        mw.switch_program_status(PROGRAM_STATUS.IN_JOB)
                     finally:
                         db_unit.disconnect()
+                        self.hide()
 
-                    self.hide()
+
 
     def on_user_pressed_default(self):
         self.set_default_all_fields()

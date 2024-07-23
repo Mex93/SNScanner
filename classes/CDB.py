@@ -24,6 +24,8 @@ class CDBTableFields:
     fd_sn_2 = 'sn_2'
     fd_sn_3 = 'sn_3'
     fd_scan_date = 'scan_date'
+    fd_table_index = 'table_index'
+    fd_pr_key = 'fields_pk'
 
 
 class CDatabase:
@@ -87,34 +89,28 @@ class CDatabase:
     def is_dbfile_exist(self, db_name: str):
         pass
 
-    def create_project_settings_table(self) -> bool:
+    def create_project_settings_table(self, transaction=False) -> bool:
 
         handle = self.get_handle()
         if handle:
-            pr_name = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.PROJECT_NAME)
-            sn1 = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_ONE)
-            sn2 = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_TWO)
-            sn3 = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.SN_TRI)
-            lot_count = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.LOT_COUNT)
-            sns_count = CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.SNS_COUNT)
-
             query = (f'CREATE TABLE IF NOT EXISTS {CDBTablesName.fd_project_settings} ('
-                     f'{CDBTableProjectFields.fd_project_name}	TEXT DEFAULT ?,'
+                     f'{CDBTableProjectFields.fd_project_name} TEXT DEFAULT "Main project",'
                      f'{CDBTableProjectFields.fd_project_pk} INTEGER UNIQUE,'
-                     f'{CDBTableProjectFields.fd_lot_count}	INTEGER DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_count}	INTEGER DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_1_name}	TEXT DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_2_name}	TEXT DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_3_name}	TEXT DEFAULT ?,'
+                     f'{CDBTableProjectFields.fd_lot_count} INTEGER DEFAULT 10000,'
+                     f'{CDBTableProjectFields.fd_sn_count} INTEGER DEFAULT 2,'
+                     f'{CDBTableProjectFields.fd_sn_1_name} TEXT DEFAULT "SN1",'
+                     f'{CDBTableProjectFields.fd_sn_2_name} TEXT DEFAULT "SN2",'
+                     f'{CDBTableProjectFields.fd_sn_3_name} TEXT DEFAULT "SN3",'
                      f'PRIMARY KEY({CDBTableProjectFields.fd_project_pk} AUTOINCREMENT)'
-                     f')', (pr_name, lot_count, sns_count, sn1, sn2, sn3))
+                     f')')
 
             cursor = handle.cursor()
             cursor.execute(query)
-            handle.commit()
+            if not transaction:
+                handle.commit()
             return True
 
-    def insert_new_project(self) -> bool | int:
+    def insert_new_project(self, transaction=False) -> bool | int:
 
         handle: sqlite3 = self.get_handle()
         if handle:
@@ -123,42 +119,66 @@ class CDatabase:
             sn2 = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SN_TWO)
             sn3 = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SN_TRI)
             lot_count = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.LOT_COUNT)
-            sns_count = CProject.get_field_value(CONFIG_MENU_FIELD_TYPE.SNS_COUNT)
+            sns_count = int(CProject.get_default_fields(CONFIG_MENU_FIELD_TYPE.SNS_COUNT))
 
             query = (f'INSERT INTO {CDBTablesName.fd_project_settings} ('
                      f'{CDBTableProjectFields.fd_project_name},'
-                     f'{CDBTableProjectFields.fd_lot_count}, {CDBTableProjectFields.fd_sn_count},'
-                     f'{CDBTableProjectFields.fd_sn_1_name}, {CDBTableProjectFields.fd_sn_2_name},'
+                     f'{CDBTableProjectFields.fd_lot_count}, '
+                     f'{CDBTableProjectFields.fd_sn_count},'
+                     f'{CDBTableProjectFields.fd_sn_1_name}, '
+                     f'{CDBTableProjectFields.fd_sn_2_name},'
                      f'{CDBTableProjectFields.fd_sn_3_name}'
-                     f') '
-                     f'VALUES '
-                     f'(?, ?, ?, ?, ?, ?);',
-                     (pr_name, lot_count, sns_count, sn1, sn2, sn3))
+                     ') '
+                     'VALUES '
+                     '(?, ?, ?, ?, ?, ?);')
 
             cursor = handle.cursor()
-            cursor.execute(query)
+            cursor.execute(query, (pr_name, lot_count, sns_count, sn1, sn2, sn3))
+
             last_id = cursor.lastrowid
-            handle.commit()
+            if not transaction:
+                handle.commit()
             return last_id
         return False
 
-    def create_project_fields_table(self, project_index: int) -> bool | int:
+    def create_project_fields_table(self, project_index: int, transaction=False) -> bool | int:
 
         handle = self.get_handle()
         if handle:
-            query = (f'CREATE TABLE IF NOT EXISTS {CDBTablesName.fd_project_data_}_{project_index} ('
+            query = (f'CREATE TABLE IF NOT EXISTS {CDBTablesName.fd_project_data_}{project_index} ('
                      f'{CDBTableFields.fd_sn_1}	TEXT DEFAULT NULL,'
-                     f'{CDBTableProjectFields.fd_project_pk} INTEGER UNIQUE,'
-                     f'{CDBTableProjectFields.fd_lot_count}	INTEGER DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_count}	INTEGER DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_1_name}	TEXT DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_2_name}	TEXT DEFAULT ?,'
-                     f'{CDBTableProjectFields.fd_sn_3_name}	TEXT DEFAULT ?,'
-                     f'PRIMARY KEY({CDBTableProjectFields.fd_project_pk} AUTOINCREMENT)'
-                     f')', (pr_name, lot_count, sns_count, sn1, sn2, sn3))
+                     f'{CDBTableFields.fd_sn_2}	TEXT DEFAULT NULL,'
+                     f'{CDBTableFields.fd_sn_3}	TEXT DEFAULT NULL,'
+                     f'{CDBTableFields.fd_scan_date} INTEGER DEFAULT 0,'
+                     f'{CDBTableFields.fd_table_index}	INTEGER DEFAULT 0,'
+                     f'{CDBTableFields.fd_pr_key}	INTEGER NOT NULL,'
+                     f'PRIMARY KEY({CDBTableFields.fd_pr_key} AUTOINCREMENT)'
+                     f')')
 
             cursor = handle.cursor()
             cursor.execute(query)
-            handle.commit()
+            if not transaction:
+                handle.commit()
+            return True
+
+    def set_transaction_begin(self):
+        handle = self.get_handle()
+        if handle:
+            cursor = handle.cursor()
+            cursor.execute('BEGIN')
+            return True
+
+    def set_transaction_rollback(self):
+        handle = self.get_handle()
+        if handle:
+            cursor = handle.cursor()
+            cursor.execute('ROLLBACK')
+            return True
+
+    def set_transaction_commit(self):
+        handle = self.get_handle()
+        if handle:
+            cursor = handle.cursor()
+            cursor.execute('COMMIT')
             return True
 
